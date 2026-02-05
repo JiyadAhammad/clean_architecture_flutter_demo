@@ -1,5 +1,6 @@
 class ApiEndpoints {
-  static const login = '/auth/login';
-  static const refreshToken = '/auth/refresh';
-  static const logout = '/auth/logout';
+  static const login = '/login';
+  static const register = '/register';
+  static const refreshToken = '/refresh';
+  static const logout = '/logout';
 }
