@@ -21,6 +21,7 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final token = await storage.getAccessToken();
+    options.headers[ApiHeaders.apiKey] = ApiHeaders.apiKeyValue;
     if (token != null && token.isNotEmpty) {
       options.headers[ApiHeaders.authorization] = '${ApiHeaders.bearer} $token';
     }

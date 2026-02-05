@@ -2,6 +2,8 @@ class ApiHeaders {
   ApiHeaders._();
 
   static const String authorization = 'Authorization';
+  static const String apiKey = 'x-api-key';
+  static const String apiKeyValue = '1234';
   static const String bearer = 'Bearer';
 
   static const String contentType = 'Content-Type';
