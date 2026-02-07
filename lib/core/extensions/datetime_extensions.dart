@@ -18,7 +18,7 @@ extension DateTimeExtensions on DateTime {
   }
 
   bool get isToday {
-    final now = DateTime.now();
+    final DateTime now = DateTime.now();
     return year == now.year && month == now.month && day == now.day;
   }
 }

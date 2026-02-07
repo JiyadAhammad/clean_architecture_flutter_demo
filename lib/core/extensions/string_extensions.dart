@@ -10,17 +10,21 @@ extension StringExtensions on String {
   }
 
   String get capitalize {
-    if (isEmpty) return this;
+    if (isEmpty) {
+      return this;
+    }
     return this[0].toUpperCase() + substring(1);
   }
 
   String get titleCase {
-    return split(' ').map((e) => e.capitalize).join(' ');
+    return split(' ').map((String e) => e.capitalize).join(' ');
   }
 
   String get maskedEmail {
-    if (!isEmail) return this;
-    final parts = split('@');
+    if (!isEmail) {
+      return this;
+    }
+    final List<String> parts = split('@');
     return '${parts[0].substring(0, 2)}****@${parts[1]}';
   }
 }

@@ -1,15 +1,14 @@
-import 'package:dummy_clean_architecture/core/storage/secure_storage_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../constants/storage_keys.dart';
+import 'secure_storage_service.dart';
 
 class SecureStorageServiceImpl implements SecureStorageService {
-  static const _tokenKey = StorageKeys.accessToken;
-  static const _refreshTokenKey = StorageKeys.refreshToken;
+  SecureStorageServiceImpl(this._storage);
+  static const String _tokenKey = StorageKeys.accessToken;
+  static const String _refreshTokenKey = StorageKeys.refreshToken;
 
   final FlutterSecureStorage _storage;
-
-  SecureStorageServiceImpl(this._storage);
 
   @override
   Future<void> saveAccessToken(String token) async {

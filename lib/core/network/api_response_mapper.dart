@@ -7,7 +7,7 @@ class ApiResponseMapper {
   ) {
     return ApiResponse<T>.fromJson(
       json,
-      (data) => fromJson(data as Map<String, dynamic>),
+      (Object? data) => fromJson(data! as Map<String, dynamic>),
     );
   }
 }

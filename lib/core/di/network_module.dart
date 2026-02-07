@@ -12,11 +12,11 @@ import '../storage/secure_storage_service.dart';
 import 'injection_container.dart';
 
 void registerNetwork() {
-  final config = sl<AppConfig>();
-  final logger = sl<AppLogger>();
-  final storage = sl<SecureStorageService>();
+  final AppConfig config = sl<AppConfig>();
+  final AppLogger logger = sl<AppLogger>();
+  final SecureStorageService storage = sl<SecureStorageService>();
 
-  final dio = Dio(
+  final Dio dio = Dio(
     BaseOptions(
       baseUrl: config.authBaseUrl,
       connectTimeout: const Duration(
@@ -28,7 +28,7 @@ void registerNetwork() {
     ),
   );
 
-  dio.interceptors.addAll([
+  dio.interceptors.addAll(<Interceptor>[
     AuthInterceptor(storage, dio),
     CacheInterceptor(),
     RetryInterceptor(dio, logger),

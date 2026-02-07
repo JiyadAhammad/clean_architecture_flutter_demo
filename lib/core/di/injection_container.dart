@@ -9,7 +9,7 @@ import 'network_module.dart';
 import 'platform_module.dart';
 import 'storage_module.dart';
 
-final sl = GetIt.instance;
+final GetIt sl = GetIt.instance;
 
 Future<void> initDI(AppEnvironment env) async {
   registerEnv(env);

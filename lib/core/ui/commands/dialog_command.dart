@@ -7,15 +7,17 @@ class DialogCommand {
     required String message,
     String okText = 'OK',
   }) async {
-    final context = AppCommands.navigatorKey.currentContext;
-    if (context == null) return;
+    final BuildContext? context = AppCommands.navigatorKey.currentContext;
+    if (context == null) {
+      return;
+    }
 
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: Text(title),
         content: Text(message),
-        actions: [
+        actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(okText),

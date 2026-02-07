@@ -3,9 +3,9 @@ import 'package:dio/dio.dart';
 import '../../logger/app_logger.dart';
 
 class ErrorInterceptor extends Interceptor {
-  final AppLogger logger;
 
   ErrorInterceptor(this.logger);
+  final AppLogger logger;
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {

@@ -6,7 +6,7 @@ import '../env/app_environment.dart';
 import 'injection_container.dart';
 
 void registerConfig() {
-  final env = sl<AppEnvironment>();
+  final AppEnvironment env = sl<AppEnvironment>();
 
   late final AppConfig config;
 

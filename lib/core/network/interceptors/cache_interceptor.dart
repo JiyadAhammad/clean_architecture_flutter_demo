@@ -3,10 +3,9 @@ import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 
 class CacheInterceptor extends Interceptor {
   static DioCacheInterceptor create() {
-    final cacheOptions = CacheOptions(
+    final CacheOptions cacheOptions = CacheOptions(
       store: MemCacheStore(),
-      policy: CachePolicy.request,
-      hitCacheOnErrorCodes: [500, 502, 503, 504],
+      hitCacheOnErrorCodes: <int>[500, 502, 503, 504],
       hitCacheOnNetworkFailure: true,
       maxStale: const Duration(days: 7),
     );

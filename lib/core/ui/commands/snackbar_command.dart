@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 enum ToastType { success, error, info, warning }
 
 class SnackbarCommand {
-  static final messengerKey = GlobalKey<ScaffoldMessengerState>();
+  static final GlobalKey<ScaffoldMessengerState> messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   static void show({
     required ToastType type,
@@ -14,7 +15,7 @@ class SnackbarCommand {
     VoidCallback? onAction,
     Duration duration = const Duration(seconds: 3),
   }) {
-    final snackBar = SnackBar(
+    final SnackBar snackBar = SnackBar(
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -36,13 +37,6 @@ class SnackbarCommand {
 }
 
 class AppToast extends StatelessWidget {
-  final ToastType type;
-  final String title;
-  final String? label;
-  final String? description;
-  final String? actionText;
-  final VoidCallback? onAction;
-
   const AppToast({
     super.key,
     required this.type,
@@ -52,10 +46,16 @@ class AppToast extends StatelessWidget {
     this.actionText,
     this.onAction,
   });
+  final ToastType type;
+  final String title;
+  final String? label;
+  final String? description;
+  final String? actionText;
+  final VoidCallback? onAction;
 
   @override
   Widget build(BuildContext context) {
-    final style = ToastStyles.of(type);
+    final ToastStyle style = ToastStyles.of(type);
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -66,14 +66,14 @@ class AppToast extends StatelessWidget {
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Icon(style.icon, color: style.iconColor, size: 22),
           const SizedBox(width: 12),
 
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   title,
                   style: const TextStyle(
@@ -82,7 +82,7 @@ class AppToast extends StatelessWidget {
                   ),
                 ),
 
-                if (label != null) ...[
+                if (label != null) ...<Widget>[
                   const SizedBox(height: 4),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -90,14 +90,14 @@ class AppToast extends StatelessWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(label!, style: const TextStyle(fontSize: 12)),
                   ),
                 ],
 
-                if (description != null) ...[
+                if (description != null) ...<Widget>[
                   const SizedBox(height: 6),
                   Text(
                     description!,
@@ -117,17 +117,16 @@ class AppToast extends StatelessWidget {
 }
 
 class ToastStyle {
-  final Color background;
-  final Color border;
-  final IconData icon;
-  final Color iconColor;
-
   const ToastStyle({
     required this.background,
     required this.border,
     required this.icon,
     required this.iconColor,
   });
+  final Color background;
+  final Color border;
+  final IconData icon;
+  final Color iconColor;
 }
 
 class ToastStyles {

@@ -3,9 +3,8 @@ import 'dart:developer';
 import 'app_logger.dart';
 
 class LoggerService implements AppLogger {
-  final bool enableLogging;
-
   LoggerService({required this.enableLogging});
+  final bool enableLogging;
 
   @override
   void success(String message) {
@@ -38,7 +37,11 @@ class LoggerService implements AppLogger {
   @override
   void error(String message, {Object? error, StackTrace? stackTrace}) {
     log('❌ ERROR: $message', name: 'ERROR');
-    if (error != null) log(error.toString());
-    if (stackTrace != null) log(stackTrace.toString());
+    if (error != null) {
+      log(error.toString());
+    }
+    if (stackTrace != null) {
+      log(stackTrace.toString());
+    }
   }
 }

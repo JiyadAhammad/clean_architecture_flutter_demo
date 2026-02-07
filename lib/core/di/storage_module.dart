@@ -6,6 +6,6 @@ import 'injection_container.dart';
 
 Future<void> registerStorage() async {
   sl.registerLazySingleton<SecureStorageService>(
-    () => SecureStorageServiceImpl(FlutterSecureStorage()),
+    () => SecureStorageServiceImpl(const FlutterSecureStorage()),
   );
 }

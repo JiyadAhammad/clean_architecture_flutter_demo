@@ -5,9 +5,13 @@ class LoaderCommand {
   static bool _isShowing = false;
 
   static void show() {
-    if (_isShowing) return;
-    final context = AppCommands.navigatorKey.currentContext;
-    if (context == null) return;
+    if (_isShowing) {
+      return;
+    }
+    final BuildContext? context = AppCommands.navigatorKey.currentContext;
+    if (context == null) {
+      return;
+    }
 
     _isShowing = true;
 
@@ -19,9 +23,13 @@ class LoaderCommand {
   }
 
   static void hide() {
-    if (!_isShowing) return;
-    final context = AppCommands.navigatorKey.currentContext;
-    if (context == null) return;
+    if (!_isShowing) {
+      return;
+    }
+    final BuildContext? context = AppCommands.navigatorKey.currentContext;
+    if (context == null) {
+      return;
+    }
 
     _isShowing = false;
     Navigator.pop(context);

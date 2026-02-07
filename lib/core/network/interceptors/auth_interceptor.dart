@@ -1,26 +1,26 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:dummy_clean_architecture/core/network/api_endpoints.dart';
 
 import '../../constants/api_headers.dart';
 import '../../storage/secure_storage_service.dart';
+import '../api_endpoints.dart';
 
 class AuthInterceptor extends Interceptor {
+  AuthInterceptor(this.storage, this.dio);
   final SecureStorageService storage;
   final Dio dio;
 
-  AuthInterceptor(this.storage, this.dio);
-
   bool _isRefreshing = false;
-  final _refreshQueue = <Completer<Response>>[];
+  final List<Completer<Response<dynamic>>> _refreshQueue =
+      <Completer<Response<dynamic>>>[];
 
   @override
   Future<void> onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final token = await storage.getAccessToken();
+    final String? token = await storage.getAccessToken();
     options.headers[ApiHeaders.apiKey] = ApiHeaders.apiKeyValue;
     if (token != null && token.isNotEmpty) {
       options.headers[ApiHeaders.authorization] = '${ApiHeaders.bearer} $token';
@@ -29,7 +29,10 @@ class AuthInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioException err, handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (_shouldRefresh(err)) {
       return _handleRefresh(err, handler);
     }
@@ -45,21 +48,22 @@ class AuthInterceptor extends Interceptor {
     DioException err,
     ErrorInterceptorHandler handler,
   ) async {
-    final completer = Completer<Response>();
+    final Completer<Response<dynamic>> completer =
+        Completer<Response<dynamic>>();
     _refreshQueue.add(completer);
 
     if (!_isRefreshing) {
       _isRefreshing = true;
 
       try {
-        final newToken = await _refreshToken();
+        final String newToken = await _refreshToken();
         await storage.saveAccessToken(newToken);
 
-        for (final c in _refreshQueue) {
+        for (final Completer<Response<dynamic>> c in _refreshQueue) {
           c.complete(await _retry(err.requestOptions));
         }
       } catch (_) {
-        for (final c in _refreshQueue) {
+        for (final Completer<Response<dynamic>> c in _refreshQueue) {
           c.completeError(err);
         }
       } finally {
@@ -69,7 +73,7 @@ class AuthInterceptor extends Interceptor {
     }
 
     try {
-      final response = await completer.future;
+      final Response<dynamic> response = await completer.future;
       handler.resolve(response);
     } catch (e) {
       handler.next(err);
@@ -77,18 +81,20 @@ class AuthInterceptor extends Interceptor {
   }
 
   Future<String> _refreshToken() async {
-    final refreshToken = await storage.getRefreshToken();
+    final String? refreshToken = await storage.getRefreshToken();
 
-    final response = await dio.post(
+    final Response<dynamic> response = await dio.post(
       ApiEndpoints.refreshToken,
-      data: {'refresh_token': refreshToken},
-      options: Options(headers: {ApiHeaders.authorization: null}),
+      data: <String, String?>{'refresh_token': refreshToken},
+      options: Options(
+        headers: <String, dynamic>{ApiHeaders.authorization: null},
+      ),
     );
 
-    return response.data['access_token'];
+    return response.data['access_token'] as String;
   }
 
-  Future<Response> _retry(RequestOptions requestOptions) {
+  Future<Response<dynamic>> _retry(RequestOptions requestOptions) {
     requestOptions.extra['retry'] = true;
 
     return dio.fetch(requestOptions);

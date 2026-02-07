@@ -13,14 +13,18 @@ class DioErrorMapper {
         );
 
       case DioExceptionType.badResponse:
-        final statusCode = error.response?.statusCode;
+        final int? statusCode = error.response?.statusCode;
 
         if (statusCode == 401 || statusCode == 403) {
           return const AuthFailure('Session expired. Please login again.');
         }
 
+        final String? message = error.response?.data is Map
+            ? error.response?.data['message']?.toString()
+            : null;
+
         return ServerFailure(
-          error.response?.data?['message'] ?? 'Something went wrong on server',
+          message ?? 'Something went wrong on server',
           code: statusCode,
         );
 
@@ -28,8 +32,9 @@ class DioErrorMapper {
         return const NetworkFailure('Request cancelled');
 
       case DioExceptionType.unknown:
-      default:
         return const UnknownFailure('Unexpected error occurred');
+      case DioExceptionType.badCertificate:
+        return const UnknownFailure('Bad certificate error occurred');
     }
   }
 }

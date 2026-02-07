@@ -7,17 +7,16 @@ abstract class DeviceInfoService {
 }
 
 class DeviceInfoServiceImpl implements DeviceInfoService {
-  final DeviceInfoPlugin _deviceInfo;
-
   DeviceInfoServiceImpl(this._deviceInfo);
+  final DeviceInfoPlugin _deviceInfo;
 
   @override
   Future<Map<String, dynamic>> getDeviceInfo() async {
-    final packageInfo = await PackageInfo.fromPlatform();
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
     if (PlatformInfo.isAndroid) {
-      final android = await _deviceInfo.androidInfo;
-      return {
+      final AndroidDeviceInfo android = await _deviceInfo.androidInfo;
+      return <String, dynamic>{
         'platform': 'android',
         'device_model': android.model,
         'os_version': android.version.release,
@@ -27,8 +26,8 @@ class DeviceInfoServiceImpl implements DeviceInfoService {
     }
 
     if (PlatformInfo.isIOS) {
-      final ios = await _deviceInfo.iosInfo;
-      return {
+      final IosDeviceInfo ios = await _deviceInfo.iosInfo;
+      return <String, dynamic>{
         'platform': 'ios',
         'device_model': ios.utsname.machine,
         'os_version': ios.systemVersion,
@@ -37,6 +36,9 @@ class DeviceInfoServiceImpl implements DeviceInfoService {
       };
     }
 
-    return {'platform': 'unknown', 'app_version': packageInfo.version};
+    return <String, dynamic>{
+      'platform': 'unknown',
+      'app_version': packageInfo.version,
+    };
   }
 }

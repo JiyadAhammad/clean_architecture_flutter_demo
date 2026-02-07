@@ -4,7 +4,7 @@ import '../logger/logger_service.dart';
 import 'injection_container.dart';
 
 void registerLogger() {
-  final config = sl<AppConfig>();
+  final AppConfig config = sl<AppConfig>();
 
   sl.registerLazySingleton<AppLogger>(
     () => LoggerService(enableLogging: config.enableLogging),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+
+import 'app_button_theme.dart';
 import 'app_colors.dart';
 import 'app_text_theme.dart';
 
 ThemeData lightTheme() {
+  final TextTheme textTheme = appTextTheme(AppColors.gray5, AppColors.gray4);
+
   return ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: AppColors.gray1,
@@ -21,9 +25,15 @@ ThemeData lightTheme() {
       foregroundColor: AppColors.gray5,
     ),
 
-    textTheme: appTextTheme(AppColors.gray5, AppColors.gray4),
+    textTheme: textTheme,
 
-    snackBarTheme: SnackBarThemeData(
+    elevatedButtonTheme: primaryButtonTheme(
+      background: AppColors.yellow,
+      foreground: Colors.black,
+      textStyle: textTheme.labelLarge!,
+    ),
+
+    snackBarTheme: const SnackBarThemeData(
       backgroundColor: Colors.transparent,
       elevation: 0,
     ),

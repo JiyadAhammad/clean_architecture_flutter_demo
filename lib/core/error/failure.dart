@@ -1,8 +1,8 @@
 abstract class Failure {
-  final String message;
-  final int? code;
 
   const Failure(this.message, {this.code});
+  final String message;
+  final int? code;
 }
 
 class NetworkFailure extends Failure {
