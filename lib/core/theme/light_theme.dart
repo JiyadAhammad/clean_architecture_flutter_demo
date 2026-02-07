@@ -30,7 +30,6 @@ ThemeData lightTheme() {
     elevatedButtonTheme: primaryButtonTheme(
       background: AppColors.yellow,
       foreground: Colors.black,
-      textStyle: textTheme.labelLarge!,
     ),
 
     snackBarTheme: const SnackBarThemeData(

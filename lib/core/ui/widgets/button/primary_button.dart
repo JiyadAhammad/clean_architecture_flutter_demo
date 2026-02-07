@@ -22,34 +22,26 @@ class PrimaryButton extends StatelessWidget {
       width: isLoading ? 52 : double.infinity,
       child: ElevatedButton(
         onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: theme.colorScheme.primary,
-          foregroundColor: theme.colorScheme.onPrimary,
-          disabledBackgroundColor: theme.colorScheme.primary.withValues(
-            alpha: 0.6,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(isLoading ? 26 : 12),
-          ),
-        ),
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
           child: isLoading
               ? SizedBox(
-                  key: const ValueKey('loader'),
+                  key: const ValueKey<String>('loader'),
                   height: 22,
                   width: 22,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation(
+                    valueColor: AlwaysStoppedAnimation<Color>(
                       theme.colorScheme.onPrimary,
                     ),
                   ),
                 )
               : Text(
                   label,
-                  key: const ValueKey('label'),
-                  style: theme.textTheme.labelLarge,
+                  key: const ValueKey<String>('label'),
+                  style: theme.textTheme.labelLarge!.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
         ),
       ),

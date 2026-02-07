@@ -99,4 +99,11 @@ class AppTypography {
     height: 16 / 12,
     fontWeight: FontWeight.w400,
   );
+
+  // ───────────────────────── Button ─────────────────────────
+
+  static const TextStyle labelLarge = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
 }

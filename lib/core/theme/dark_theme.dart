@@ -24,7 +24,6 @@ ThemeData darkTheme() {
     elevatedButtonTheme: primaryButtonTheme(
       background: AppColors.yellowDark,
       foreground: Colors.black,
-      textStyle: textTheme.labelLarge!,
     ),
 
     appBarTheme: const AppBarTheme(
