@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/ui/widgets/text/app_text.dart';
 import '../../../../core/ui/widgets/widgets.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,10 +27,7 @@ class _LoginPageState extends State<LoginPage> {
               const Spacer(),
 
               /// Title
-              const Text(
-                'Welcome Back',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+              const AppText('Welcome Back', style: AppTextStyle.displayLarge),
 
               const SizedBox(height: 32),
 
@@ -87,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                   Expanded(child: Divider()),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Text('OR'),
+                    child: AppText('OR', style: AppTextStyle.bodySmall),
                   ),
                   Expanded(child: Divider()),
                 ],
@@ -95,26 +93,23 @@ class _LoginPageState extends State<LoginPage> {
 
               const SizedBox(height: 24),
 
-              /// Google login
-              // OutlinedButton.icon(
-              //   onPressed: () {},
-              //   icon: Image.network(
-              //     'https://upload.wikimedia.org/wikipedia/commons/0/09/IOS_Google_icon.png',
-              //     height: 18,
-              //   ),
-              //   label: const Text('Login with Google'),
-              //   style: OutlinedButton.styleFrom(
-              //     minimumSize: const Size(double.infinity, 52),
-              //   ),
-              // ),
               const SizedBox(height: 16),
 
               /// Sign up
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Don't have an account? "),
-                  GestureDetector(onTap: () {}, child: const Text('Sign Up')),
+                  const AppText(
+                    "Don't have an account? ",
+                    style: AppTextStyle.bodySmall,
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: const AppText(
+                      'Sign Up',
+                      style: AppTextStyle.bodySmall,
+                    ),
+                  ),
                 ],
               ),
 
@@ -124,5 +119,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
   }
 }

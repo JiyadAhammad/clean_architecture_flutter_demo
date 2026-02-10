@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../text/app_text.dart';
+
 class PrimaryButton extends StatelessWidget {
   const PrimaryButton({
     super.key,
@@ -36,13 +38,7 @@ class PrimaryButton extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text(
-                  label,
-                  key: const ValueKey<String>('label'),
-                  style: theme.textTheme.labelLarge!.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
+              : AppText(label, style: AppTextStyle.labelLarge),
         ),
       ),
     );
