@@ -7,7 +7,7 @@ import '../../../../core/network/base_remote_data_source.dart';
 import '../models/request_model/request_model.dart';
 import '../models/response_model/auth_user_model.dart';
 
-abstract class AuthRemoteDataSource {
+abstract interface class AuthRemoteDataSource {
   Future<ApiResponse<AuthUserResponseModel>> login({
     required LoginRequestModel loginRequest,
   });

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
+import '../../../features/auth/data/models/response_model/auth_user_model.dart';
 import '../../constants/api_headers.dart';
 import '../../storage/secure_storage_service.dart';
 import '../api_endpoints.dart';
@@ -20,10 +21,11 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final String? token = await storage.getAccessToken();
+    final AuthUserResponseModel? userData = await storage.getUserData();
     options.headers[ApiHeaders.apiKey] = ApiHeaders.apiKeyValue;
-    if (token != null && token.isNotEmpty) {
-      options.headers[ApiHeaders.authorization] = '${ApiHeaders.bearer} $token';
+    if (userData != null) {
+      options.headers[ApiHeaders.authorization] =
+          '${ApiHeaders.bearer} ${userData.token}';
     }
     handler.next(options);
   }
@@ -56,8 +58,8 @@ class AuthInterceptor extends Interceptor {
       _isRefreshing = true;
 
       try {
-        final String newToken = await _refreshToken();
-        await storage.saveAccessToken(newToken);
+        final AuthUserResponseModel newToken = await _refreshToken();
+        await storage.saveUserData(newToken);
 
         for (final Completer<Response<dynamic>> c in _refreshQueue) {
           c.complete(await _retry(err.requestOptions));
@@ -80,7 +82,7 @@ class AuthInterceptor extends Interceptor {
     }
   }
 
-  Future<String> _refreshToken() async {
+  Future<AuthUserResponseModel> _refreshToken() async {
     final String? refreshToken = await storage.getRefreshToken();
 
     final Response<dynamic> response = await dio.post(
@@ -90,8 +92,8 @@ class AuthInterceptor extends Interceptor {
         headers: <String, dynamic>{ApiHeaders.authorization: null},
       ),
     );
-
-    return response.data['access_token'] as String;
+    final Map<String, dynamic> result = response.data as Map<String, dynamic>;
+    return AuthUserResponseModel.fromJson(result);
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) {
