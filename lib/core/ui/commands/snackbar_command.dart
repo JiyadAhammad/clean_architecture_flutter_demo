@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'app_commands.dart';
+
 enum ToastType { success, error, info, warning }
 
 class SnackbarCommand {
   static final GlobalKey<ScaffoldMessengerState> messengerKey =
-      GlobalKey<ScaffoldMessengerState>();
+      AppCommands.messengerKey;
 
   static void show({
     required ToastType type,
@@ -90,7 +92,9 @@ class AppToast extends StatelessWidget {
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.05),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surface.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(label!, style: const TextStyle(fontSize: 12)),

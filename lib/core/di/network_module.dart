@@ -7,7 +7,6 @@ import '../network/interceptors/auth_interceptor.dart';
 import '../network/interceptors/cache_interceptor.dart';
 import '../network/interceptors/error_interceptor.dart';
 import '../network/interceptors/logging_interceptor.dart';
-import '../network/interceptors/retry_interceptor.dart';
 import '../storage/secure_storage_service.dart';
 import 'injection_container.dart';
 
@@ -31,7 +30,7 @@ void registerNetwork() {
   dio.interceptors.addAll(<Interceptor>[
     AuthInterceptor(storage, dio),
     CacheInterceptor(),
-    RetryInterceptor(dio, logger),
+    // RetryInterceptor(dio, logger),
     LoggingInterceptor(logger),
     ErrorInterceptor(logger),
   ]);

@@ -17,30 +17,55 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      height: 52,
-      width: isLoading ? 52 : double.infinity,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: isLoading
-              ? SizedBox(
-                  key: const ValueKey<String>('loader'),
-                  height: 22,
-                  width: 22,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      theme.colorScheme.onPrimary,
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double width = isLoading ? 50 : constraints.maxWidth;
+        return Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            height: 45,
+            width: width,
+            child: ElevatedButton(
+              onPressed: isLoading ? null : onPressed,
+              child: AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return FadeTransition(
+                    opacity: animation,
+                    child: SizeTransition(
+                      sizeFactor: animation,
+                      axis: Axis.horizontal,
+                      child: child,
                     ),
-                  ),
-                )
-              : AppText(label, style: AppTextStyle.labelLarge),
-        ),
-      ),
+                  );
+                },
+                child: isLoading
+                    ? Center(
+                        child: SizedBox(
+                          key: const ValueKey<String>('loader'),
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              theme.colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: AppText(
+                          label,
+                          style: AppTextStyle.labelLarge,
+                          color: Colors.white,
+                        ),
+                      ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

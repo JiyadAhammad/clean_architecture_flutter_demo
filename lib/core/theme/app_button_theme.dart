@@ -6,6 +6,7 @@ ElevatedButtonThemeData primaryButtonTheme({
 }) {
   return ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      padding: EdgeInsets.zero,
       backgroundColor: background,
       foregroundColor: foreground,
       textStyle: const TextStyle(color: Colors.white),
