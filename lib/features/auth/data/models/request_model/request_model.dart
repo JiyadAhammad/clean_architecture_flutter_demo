@@ -6,7 +6,7 @@ part 'request_model.g.dart';
 @freezed
 abstract class LoginRequestModel with _$LoginRequestModel {
   const factory LoginRequestModel({
-    required String email,
+    required String username,
     required String password,
   }) = _LoginRequestModel;
 

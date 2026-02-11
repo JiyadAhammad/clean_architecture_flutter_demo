@@ -7,6 +7,8 @@ extension AuthUserMapper on AuthUserResponseModel {
       token: token ?? '',
       userId: userId ?? 0,
       fullName: fullName ?? '',
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
       email: email ?? '',
       mobile: mobile,
     );

@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                                 .trim();
                             context.read<AuthBloc>().add(
                               AuthEvent.loginRequested(
-                                email: email,
+                                username: email,
                                 password: password,
                               ),
                             );

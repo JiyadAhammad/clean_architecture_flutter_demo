@@ -6,15 +6,16 @@ class StagingAppConfig implements AppConfig {
   AppEnvironment get environment => AppEnvironment.staging;
 
   String get baseUrl => 'https://staging-api.myapp.com';
+  String get endpoint => 'api/development';
 
   @override
-  String get authBaseUrl => baseUrl;
+  String get authBaseUrl => '$baseUrl/$endpoint';
 
   @override
-  String get userBaseUrl => baseUrl;
+  String get userBaseUrl => '$baseUrl/$endpoint';
 
   @override
-  String get paymentBaseUrl => baseUrl;
+  String get paymentBaseUrl => '$baseUrl/$endpoint';
 
   @override
   bool get enableLogging => true;

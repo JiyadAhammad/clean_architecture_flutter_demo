@@ -27,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading());
 
     final Either<Failure, AuthUserEntity> result = await _loginUseCase.call(
-      LoginRequestModel(email: event.email, password: event.password),
+      LoginRequestModel(username: event.username, password: event.password),
     );
 
     sl<AppLogger>().warning('${result.getRight()} right result bloc');
