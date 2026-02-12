@@ -45,7 +45,7 @@ void main() {
         password: 'test val',
       ),
     ),
-    expect: () => [
+    expect: () => <Object>[
       const AuthState.loading(),
       predicate<AuthState>(
         (AuthState state) =>
