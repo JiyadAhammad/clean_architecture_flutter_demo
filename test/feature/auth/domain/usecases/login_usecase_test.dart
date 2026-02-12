@@ -1,5 +1,4 @@
 import 'package:dummy_clean_architecture/core/error/failure.dart';
-import 'package:dummy_clean_architecture/features/auth/data/models/request_model/request_model.dart';
 import 'package:dummy_clean_architecture/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:dummy_clean_architecture/features/auth/domain/repositories/i_auth_repository.dart';
 import 'package:dummy_clean_architecture/features/auth/domain/usecases/login_usecase.dart';
@@ -20,7 +19,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(
-      const LoginRequestModel(
+      const LoginRequestParam(
         username: 'dheerajpalbmu@gmail.com',
         password: '12345678',
       ),
@@ -30,7 +29,7 @@ void main() {
   // const String username = ;
   // const String password = ;
 
-  const LoginRequestModel loginRequest = LoginRequestModel(
+  const LoginRequestParam loginRequest = LoginRequestParam(
     username: 'dheerajpalbmu@gmail.com',
     password: '12345678',
   );
@@ -49,7 +48,7 @@ void main() {
           mobile: '918853825654',
         );
         when(
-          () => mockAuthRepository.login(loginRequest: loginRequest),
+          () => mockAuthRepository.login(loginRequestParam: loginRequest),
         ).thenAnswer(
           (_) async => const Right<Failure, AuthUserEntity>(response),
         );
@@ -60,7 +59,7 @@ void main() {
         // Assert
         expect(result, const Right<Failure, AuthUserEntity>(response));
         verify(
-          () => mockAuthRepository.login(loginRequest: loginRequest),
+          () => mockAuthRepository.login(loginRequestParam: loginRequest),
         ).called(1);
         verifyNoMoreInteractions(mockAuthRepository);
       });
@@ -68,7 +67,7 @@ void main() {
       test('returns AuthFailure when login fails', () async {
         const AuthFailure failure = AuthFailure('Invalid credentials');
         when(
-          () => mockAuthRepository.login(loginRequest: loginRequest),
+          () => mockAuthRepository.login(loginRequestParam: loginRequest),
         ).thenAnswer((_) async => const Left<Failure, AuthUserEntity>(failure));
 
         final Either<Failure, AuthUserEntity> result = await loginUseCase(
@@ -77,7 +76,7 @@ void main() {
 
         expect(result, const Left<Failure, AuthUserEntity>(failure));
         verify(
-          () => mockAuthRepository.login(loginRequest: loginRequest),
+          () => mockAuthRepository.login(loginRequestParam: loginRequest),
         ).called(1);
       });
     });

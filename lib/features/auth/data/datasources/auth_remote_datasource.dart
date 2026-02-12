@@ -4,7 +4,7 @@ import '../../../../core/models/api_response.dart';
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/api_response_mapper.dart';
 import '../../../../core/network/base_remote_data_source.dart';
-import '../models/request_model/request_model.dart';
+import '../models/request_model/login_request_model.dart';
 import '../models/response_model/auth_user_model.dart';
 
 abstract interface class AuthRemoteDataSource {

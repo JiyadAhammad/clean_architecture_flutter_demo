@@ -6,9 +6,10 @@ import '../../../../core/models/api_response.dart';
 import '../../../../core/storage/secure_storage_service.dart';
 import '../../domain/entities/auth_user_entity.dart';
 import '../../domain/repositories/i_auth_repository.dart';
+import '../../domain/usecases/login_usecase.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../mappers/auth_user_mapper.dart';
-import '../models/request_model/request_model.dart';
+import '../models/request_model/login_request_model.dart';
 import '../models/response_model/auth_user_model.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
@@ -17,9 +18,13 @@ class AuthRepositoryImpl implements IAuthRepository {
   final SecureStorageService local;
   @override
   Future<Either<Failure, AuthUserEntity>> login({
-    required LoginRequestModel loginRequest,
+    required LoginRequestParam loginRequestParam,
   }) async {
     try {
+      final loginRequest = LoginRequestModel(
+        username: loginRequestParam.username,
+        password: loginRequestParam.password,
+      );
       final ApiResponse<AuthUserResponseModel> res = await _dataSource.login(
         loginRequest: loginRequest,
       );

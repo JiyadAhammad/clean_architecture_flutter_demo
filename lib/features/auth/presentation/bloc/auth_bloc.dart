@@ -7,7 +7,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/logger/app_logger.dart';
-import '../../data/models/request_model/request_model.dart';
 import '../../domain/entities/auth_user_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 
@@ -27,7 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading());
 
     final Either<Failure, AuthUserEntity> result = await _loginUseCase.call(
-      LoginRequestModel(username: event.username, password: event.password),
+      LoginRequestParam(username: event.username, password: event.password),
     );
 
     sl<AppLogger>().warning('${result.getRight()} right result bloc');
