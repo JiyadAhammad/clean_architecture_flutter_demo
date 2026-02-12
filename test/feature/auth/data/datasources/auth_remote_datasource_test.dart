@@ -2,3 +2,4 @@
 // Unit test
 // ⚠️ Optional
 // Mostly integration
+void main() {}
