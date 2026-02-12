@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/di/injection_container.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/logger/app_logger.dart';
 import '../../domain/entities/auth_user_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 
@@ -29,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoginRequestParam(username: event.username, password: event.password),
     );
 
-    sl<AppLogger>().warning('${result.getRight()} right result bloc');
+    // sl<AppLogger>().warning('${result.getRight()} right result bloc');
 
     result.fold(
       (Failure failure) => emit(AuthState.error(failure.message)),
