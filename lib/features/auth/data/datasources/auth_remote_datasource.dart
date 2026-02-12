@@ -7,7 +7,7 @@ import '../../../../core/network/base_remote_data_source.dart';
 import '../models/request_model/login_request_model.dart';
 import '../models/response_model/auth_user_model.dart';
 
-abstract interface class AuthRemoteDataSource {
+abstract interface class IAuthRemoteDataSource {
   Future<ApiResponse<AuthUserResponseModel>> login({
     required LoginRequestModel loginRequest,
   });
@@ -20,7 +20,7 @@ abstract interface class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl extends BaseRemoteDataSourceImpl
-    implements AuthRemoteDataSource {
+    implements IAuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this.dio);
   final Dio dio;
 

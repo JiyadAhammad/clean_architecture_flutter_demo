@@ -14,14 +14,14 @@ import '../models/response_model/auth_user_model.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   AuthRepositoryImpl(this._dataSource, this.local);
-  final AuthRemoteDataSource _dataSource;
+  final IAuthRemoteDataSource _dataSource;
   final SecureStorageService local;
   @override
   Future<Either<Failure, AuthUserEntity>> login({
     required LoginRequestParam loginRequestParam,
   }) async {
     try {
-      final loginRequest = LoginRequestModel(
+      final LoginRequestModel loginRequest = LoginRequestModel(
         username: loginRequestParam.username,
         password: loginRequestParam.password,
       );
@@ -31,6 +31,11 @@ class AuthRepositoryImpl implements IAuthRepository {
 
       if (res.data == null) {
         return left(AuthFailure(res.message ?? 'Login failed'));
+      }
+
+      if (res.data?.token != null) {
+        // Save token
+        await local.saveUserData(res.data!);
       }
 
       return right(res.data!.toEntity());

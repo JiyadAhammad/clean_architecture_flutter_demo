@@ -10,14 +10,14 @@ import 'presentation/bloc/auth_bloc.dart';
 
 void registerAuthFeature() {
   /// Data source
-  sl.registerLazySingleton<AuthRemoteDataSource>(
+  sl.registerLazySingleton<IAuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(sl<Dio>()),
   );
 
   /// Repository
   sl.registerLazySingleton<IAuthRepository>(
     () => AuthRepositoryImpl(
-      sl<AuthRemoteDataSource>(),
+      sl<IAuthRemoteDataSource>(),
       sl<SecureStorageService>(),
     ),
   );
