@@ -1,67 +1,85 @@
 name: Flutter CI
 
-
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
 
 jobs:
-    android:
-        name: Android • Analyze • Test • Build
-        runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  test:
+    name: App build
+    runs-on: ubuntu-latest
 
-            - name: Set up Flutter
-              uses: subosito/flutter-action@v2
-              with:
-                flutter-version: '3.35.7' 
-                channel: stable
-                cache: true
-            - name: Install dependencies
-              run: flutter pub get
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Analyze code
-              run: flutter analyze
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: stable
+          cache: true
 
-            - name: Run tests
-              run: flutter test --coverage
+      - name: Install dependencies
+        run: flutter pub get
 
-            - name: Build APK
-              run: flutter build apk --debug
+      - name: Analyze code
+        run: flutter analyze
 
-    ios:
-      name: iOS • Test • Build
-      runs-on: macos-latest
+      - name: Run tests
+        run: flutter test --coverage
 
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+  # ANDROID BUILD
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    needs: test
 
-        - name: Set up Flutter
-          uses: subosito/flutter-action@v2
-          with:
-            flutter-version: '3.35.7'
-            channel: stable
-            cache: true
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Install dependencies
-          run: flutter pub get
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: stable
+          cache: true
 
-        - name: Analyze code
-          run: flutter analyze
+      - name: Install dependencies
+        run: flutter pub get
 
-        - name: Run tests
-          run: flutter test
+      - name: Build APK
+        run: flutter build apk --debug
 
-        - name: Install CocoaPods
-          run: |
-            cd ios
-            pod install
 
-        - name: Build iOS (no codesign)
-          run: flutter build ios --debug --no-codesign
+  # IOS BUILD
+  build-ios:
+    name: Build iOS
+    runs-on: macos-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.7'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+
+      - name: Build iOS (no codesign)
+        run: flutter build ios --debug --no-codesign
