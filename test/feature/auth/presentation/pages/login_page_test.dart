@@ -11,16 +11,19 @@ import 'package:mocktail/mocktail.dart';
 
 class MockAuthBloc extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
 
-class FakeAuthEvent extends Fake implements AuthEvent {}
+class FakeAuthEvent extends Fake {}
 
-class FakeAuthState extends Fake implements AuthState {}
+class FakeAuthState extends Fake {}
 
 void main() {
   late MockAuthBloc mockAuthBloc;
 
   setUpAll(() {
-    registerFallbackValue(FakeAuthEvent());
-    registerFallbackValue(FakeAuthState());
+    registerFallbackValue(
+      const AuthEvent.loginRequested(username: '', password: ''),
+    );
+
+    registerFallbackValue(const AuthState.initial());
   });
 
   setUp(() {
