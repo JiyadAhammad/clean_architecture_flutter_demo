@@ -8,11 +8,9 @@ on:
     branches: [ main, develop ]
 
 jobs:
-    build:
-        name: Analyze • Test • Build
+    android:
+        name: Android • Analyze • Test • Build
         runs-on: ubuntu-latest
-
-
 
         steps:
             - name: Checkout repository
@@ -21,7 +19,7 @@ jobs:
             - name: Set up Flutter
               uses: subosito/flutter-action@v2
               with:
-                flutter-version: '3.35.7' # match your local version
+                flutter-version: '3.35.7' 
                 channel: stable
                 cache: true
             - name: Install dependencies
@@ -35,3 +33,35 @@ jobs:
 
             - name: Build APK
               run: flutter build apk --debug
+
+    ios:
+      name: iOS • Test • Build
+      runs-on: macos-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Set up Flutter
+          uses: subosito/flutter-action@v2
+          with:
+            flutter-version: '3.35.7'
+            channel: stable
+            cache: true
+
+        - name: Install dependencies
+          run: flutter pub get
+
+        - name: Analyze code
+          run: flutter analyze
+
+        - name: Run tests
+          run: flutter test
+
+        - name: Install CocoaPods
+          run: |
+            cd ios
+            pod install
+
+        - name: Build iOS (no codesign)
+          run: flutter build ios --debug --no-codesign
